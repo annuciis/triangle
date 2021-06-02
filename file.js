@@ -1,4 +1,5 @@
 //defining canvas
+window.onload = function(){
 const container = document.getElementById("container");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -7,7 +8,10 @@ let cw = canvas.width,
 let ch = canvas.height,
   cy = ch / 2;
 
+
 let triangleIsDrawed = false;
+
+
 
 //function for Calculate button
 const drawTriangle = () => {
@@ -35,6 +39,7 @@ const drawTriangle = () => {
   };
 
   //Triangle type (equilateral, isosceles, scalene, impossible triangle)
+
   const triangleType = (side1, side2, side3) => {
     //check, if exists
     if (
@@ -55,6 +60,7 @@ const drawTriangle = () => {
 
     return "Scalene";
   };
+
 
   //error handling
 
@@ -90,3 +96,8 @@ const drawTriangle = () => {
     triangleIsDrawed = true;
   }
 };
+
+document.getElementById("calculate-button").onclick = drawTriangle;
+
+}
+
