@@ -9,9 +9,7 @@ let ch = canvas.height,
   cy = ch / 2;
 
 
-let triangleIsDrawed = false;
-
-
+let triangleIsDrawedOnce = false;
 
 //function for Calculate button
 const drawTriangle = () => {
@@ -31,22 +29,23 @@ const drawTriangle = () => {
     ctx.strokeStyle = "black";
     path.moveTo(120, 20);
     path.lineTo(AB + 120, 20);
-    path.lineTo(C_x_coord + 120, Math.sqrt(AC * AC - C_x_coord * C_x_coord));
+    path.lineTo(C_x_coord + 120, Math.sqrt(AC * AC - C_x_coord * C_x_coord) + 20);
     path.lineTo(120, 20);
     ctx.fillStyle = "white";
     ctx.fill(path);
+    ctx.fillStyle = "black"
+    ctx.font = "900 15px Verdana";
+    ctx.fillText(triangleType(AB, BC, AC), cx - 45, cy + 30);
     ctx.stroke(path);
+
   };
 
   //Triangle type (equilateral, isosceles, scalene, impossible triangle)
 
   const triangleType = (side1, side2, side3) => {
-    //check, if exists
-    if (
-      side1 + side2 <= side3 ||
-      side1 + side3 <= side2 ||
-      side2 + side3 <= side1
-    ) {
+    
+    if (side1 + side2 <= side3 || side1 + side3 <= side2 || side2 + side3 <= side1)
+    {
       return "Non existing";
     }
 
@@ -74,28 +73,25 @@ const drawTriangle = () => {
   if (BC <= 0) alert("B side cannot be a negative number or 0");
   if (AC <= 0) alert("C side cannot be a negative number or 0");
 
-  //triangle is already drawed on canvas
-  if (triangleIsDrawed)
-    alert(
-      "You cannot draw 2 triangles in the same window. Please, reload the page."
-    );
 
   //if everything is good, run the code
-  if (
-    !isNaN(AB) &&
-    !isNaN(BC) &&
-    !isNaN(AC) &&
-    AB > 0 &&
-    BC > 0 &&
-    AC > 0 &&
-    triangleIsDrawed == false
-  ) {
-    ctx.font = "900 15px Verdana";
-    ctx.fillText(triangleType(AB, BC, AC), cx - 45, cy + 30);
-    trianglePath(AB, BC, AC);
-    triangleIsDrawed = true;
+
+  function runCanvas (){
+  if (!isNaN(AB) && !isNaN(BC) && !isNaN(AC) && AB > 0 && BC > 0 && AC > 0 )
+  {
+    if (triangleIsDrawedOnce == false) { //for calling the function first time
+      trianglePath(AB, BC, AC);
+      triangleIsDrawedOnce = true;
+    } else { //for calling the function second or another time
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      trianglePath(AB, BC, AC);
+    }
   }
+
 };
+
+runCanvas()
+}
 
 document.getElementById("calculate-button").onclick = drawTriangle;
 
